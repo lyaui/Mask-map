@@ -1,10 +1,11 @@
 <template>
-  <div v-if="data" class="search-results d-flex flex-column align-items-center" id="result-top">
+  <div v-if="data" class="search-results d-flex flex-column align-items-center">
     <div
       class="card border-0 p-1 mb-3 w-100"
-      v-for="item in data.slice(0, showNum)"
-      :key="item.properties.id"
+      v-for="(item, i) in data.slice(0, showNum)"
+      :key="item.properties.i"
       @click="emitNewCenter(item)"
+      :id="i"
     >
       <div class="card-body p-0">
         <div class="d-flex mb-5 mask-num">
@@ -84,16 +85,16 @@
       >
         查看更多
       </button>
-      <button class="btn btn-primary-darken p-0 shadow-lg go-top-btn">
-        TOP
+      <button v-if="data.length > 0" class="btn btn-primary-darken p-0 shadow-lg go-top-btn">
+        <a href="#0" class="text-white" style="padding: 10px;">TOP</a>
       </button>
     </div>
   </div>
 </template>
 
 <script>
-import L from "leaflet";
 export default {
+  name: 'Cards',
   props: {
     data: {
       type: Array,
@@ -111,59 +112,58 @@ export default {
   data() {
     return { showNum: 8 };
   },
+  watch: {
+    data() {
+      const vm = this;
+      vm.showNum = 8;
+    },
+  },
   methods: {
     emitNewCenter(item) {
-      const coordinates = item["geometry"]["coordinates"];
+      const vm = this;
+      const { coordinates } = item.geometry;
       const newCenter = [coordinates[1], coordinates[0]];
-      this.$emit("newCenter", newCenter);
+      vm.$emit('newCenter', newCenter);
     },
     isOpening(time) {
-      let isOpening, openingBg, openingTextColor;
-      if (!time || time === "") {
-        isOpening = "無資料";
+      let isOpening;
+      let openingBg;
+      let openingTextColor;
+      if (!time || time === '') {
+        isOpening = '無資料';
       } else {
-        const morning = time.split("").slice(0, 7);
-        const afternoon = time.split("").slice(7, 14);
-        const night = time.split("").slice(14, 21);
+        const morning = time.split('').slice(0, 7);
+        const afternoon = time.split('').slice(7, 14);
+        const night = time.split('').slice(14, 21);
         let today = new Date().getDay();
         today = today === 0 ? today : 7;
         const hour = new Date().getHours();
 
-        switch (true) {
-          //0~9 & 22點以後
-          case hour < 9:
-            isOpening = "休息中";
-            openingBg = "bg-gray";
-            openingTextColor = "isClosed";
-            break;
-          //上午 9~13
-          case hour < 14:
-            isOpening = morning[today - 1] === "N" ? "休息中" : "營業中";
-            openingBg = morning[today - 1] === "N" ? "bg-gray" : "bg-primary";
-            openingTextColor = morning[today - 1] === "N" ? "isClosed" : "isOpening";
-            break;
-          //下午 14~17
-          case hour < 18:
-            isOpening = afternoon[today - 1] === "N" ? "休息中" : "營業中";
-            openingBg = afternoon[today - 1] === "N" ? "bg-gray" : "bg-primary";
-            openingTextColor = afternoon[today - 1] === "N" ? "isClosed" : "isOpening";
-            break;
-          //晚上 18~22
-          case hour < 21:
-            isOpening = night[today - 1] === "N" ? "休息中" : "營業中";
-            openingBg = night[today - 1] === "N" ? "bg-gray" : "bg-primary";
-            openingTextColor = night[today - 1] === "N" ? "isClosed" : "isOpening";
-            if (hour === 20 && isOpening === "營業中") {
-              isOpening = "即將休息";
-              openingBg = "bg-secondary";
-              openingTextColor = "nearlyClose";
-            }
-            break;
-          case hour < 24:
-            isOpening = "休息中";
-            openingBg = "bg-gray";
-            openingTextColor = "isClosed";
-            break;
+        if (hour < 9 || hour >= 21) {
+          // 0~9 & 21點以後
+          isOpening = '休息中';
+          openingBg = 'bg-gray';
+          openingTextColor = 'isClosed';
+        } else if (hour >= 9 < 14) {
+          // 上午 9~13
+          isOpening = morning[today - 1] === 'N' ? '休息中' : '營業中';
+          openingBg = morning[today - 1] === 'N' ? 'bg-gray' : 'bg-primary';
+          openingTextColor = morning[today - 1] === 'N' ? 'isClosed' : 'isOpening';
+        } else if (hour >= 14 < 18) {
+          // 下午 14~17
+          isOpening = afternoon[today - 1] === 'N' ? '休息中' : '營業中';
+          openingBg = afternoon[today - 1] === 'N' ? 'bg-gray' : 'bg-primary';
+          openingTextColor = afternoon[today - 1] === 'N' ? 'isClosed' : 'isOpening';
+        } else if (hour >= 18 < 22) {
+          // 晚上 18~21
+          isOpening = night[today - 1] === 'N' ? '休息中' : '營業中';
+          openingBg = night[today - 1] === 'N' ? 'bg-gray' : 'bg-primary';
+          openingTextColor = night[today - 1] === 'N' ? 'isClosed' : 'isOpening';
+          if (hour === 20 && isOpening === '營業中') {
+            isOpening = '即將休息';
+            openingBg = 'bg-secondary';
+            openingTextColor = 'nearlyClose';
+          }
         }
       }
       return { status: isOpening, color: openingBg, text: openingTextColor };

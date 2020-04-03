@@ -2,12 +2,11 @@
   <div class="col-sm-6 col-md-8 col-xl-9">
     <l-map :zoom="zoom" :center="userPosition" :minZoom="6" class="h-100" ref="mapInfo">
       <l-tile-layer :url="url"></l-tile-layer>
-      <l-marker-cluster ref="clusterRef">
+      <l-marker-cluster>
         <l-marker
           v-for="(item, i) in allData"
           :lat-lng="[item['geometry']['coordinates'][1], item['geometry']['coordinates'][0]]"
           :key="i"
-          ref="marker"
           @add="openPopup"
         >
           <l-popup
@@ -40,20 +39,24 @@
 </template>
 
 <script>
-import { LMap, LTileLayer, LMarker, LPopup } from "vue2-leaflet";
-import "leaflet/dist/leaflet.css";
-import LMarkerCluster from "vue2-leaflet-markercluster";
-import "leaflet.markercluster/dist/MarkerCluster.css";
-import "leaflet.markercluster/dist/MarkerCluster.Default.css";
-import { Icon } from "leaflet";
+import {
+  LMap, LTileLayer, LMarker, LPopup,
+} from 'vue2-leaflet';
+import 'leaflet/dist/leaflet.css';
+import LMarkerCluster from 'vue2-leaflet-markercluster';
+import 'leaflet.markercluster/dist/MarkerCluster.css';
+import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
+import { Icon } from 'leaflet';
+
+// eslint-disable-next-line no-underscore-dangle
 delete Icon.Default.prototype._getIconUrl;
 Icon.Default.mergeOptions({
-  iconUrl: require("leaflet/dist/images/marker-icon.png"),
   iconSize: [0, 0],
 });
 
 export default {
-  props: ["allData", "calcMask", "adultDaily", "childDaily", "newCenter", "userPosition"],
+  name: 'OsmMap',
+  props: ['allData', 'calcMask', 'adultDaily', 'childDaily', 'newCenter', 'userPosition'],
   components: {
     LMap,
     LTileLayer,
@@ -64,14 +67,14 @@ export default {
   data() {
     return {
       zoom: 16,
-      url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+      url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
       map: null,
     };
   },
   methods: {
-    openPopup: function (event) {
+    openPopup(e) {
       this.$nextTick(() => {
-        event.target.openPopup();
+        e.target.openPopup();
       });
     },
   },

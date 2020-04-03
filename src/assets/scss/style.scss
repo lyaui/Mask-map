@@ -1,85 +1,119 @@
-$color-bg: #fafafa;
-
+////////// navbar //////////
 nav {
-  // height: 65px;
-  position: relative;
+  height: 65px;
   background-color: #fff;
-
   img {
     margin-right: 10px;
     width: 30px;
     height: 30px;
   }
-
-  .title {
+  h1 {
     font-size: 16px;
   }
-
-  .btn--active {
-    border-width: 50px !important;
+  ul {
+    list-style: none;
+    li {
+      cursor: pointer;
+    }
+  }
+  .nav-item--active {
+    border-bottom: 4px solid #34495d;
+    border-radius: 3px;
   }
 }
 
+////////// RWD-navbar //////////
+
+.navbar-toggler {
+  font-size: 16px !important;
+}
 .collapse {
   li {
     cursor: pointer;
-    transition: all .3s;
+    transition: all 0.3s;
     &:hover {
-      background-color: rgba(#FFFFFF,.1);
+      background-color: rgba(#ffffff, 0.1);
+    }
+  }
+}
+////////// sidebar //////////
+.menu {
+  min-height: 90vh;
+  background-color: #fafafa;
+}
+.form-group {
+  position: relative;
+}
+.search-btn {
+  position: absolute;
+  top: -2px;
+  right: -5px;
+  z-index: 10;
+}
+.search-input {
+  width: 90% !important;
+  padding-right: 36px !important;
+}
+.go-back-btn {
+  position: absolute;
+  top: -2px;
+  left: -5px;
+  z-index: 10;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+
+  i {
+    display: block;
+    font-size: 24px;
+  }
+}
+////////// search menu //////////
+.recommend-results {
+  z-index: 50;
+  position: absolute;
+  top: 38px;
+  right: 0px;
+  width: 90%;
+  font-size: 14px;
+  max-height: 400px;
+  box-shadow: 0px 10px 20px #00000036;
+  border: 1px solid #34495e33;
+  border-radius: 10px;
+  overflow: scroll;
+  li {
+    cursor: pointer;
+    color: #566778;
+    border: none;
+    i {
+      color: rgba(#566778, 0.6);
+    }
+    &:hover {
+      background-color: rgb(233, 233, 233);
     }
   }
 }
 
-.menu {
-  min-height: 90vh;
-  background-color: $color-bg;
-}
-
-.search-bar {
-  input {
-    width: 100%;
-  }
-
-  button {
-    box-shadow: 0px 3px 10px #0000001a;
-    margin-left: 6px;
-  }
-
-  ::placeholder {
-    /* Chrome, Firefox, Opera, Safari 10.1+ */
-    color: red;
-    opacity: 1;
-    /* Firefox */
-  }
-}
-
-.search-input{
-  position: relative;
-}
-
-.search-icon{
-  position: absolute;
-  top:16px;
-  right:10px
-}
-.search-result-bar{
+////////// searched keywords //////////
+.search-records-bar {
   font-size: 14px;
   height: 35px;
   line-height: 35px;
-}
-
-.search-result-list{
-  position: absolute;
-  font-size: 14px;
-  color:#566778;
-  height: 350px;
-  overflow:auto;
-  z-index: 10;
-
-  .list-group-item {
-    &:hover{
-      background-color: #ececec;
-    }
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  button {
+    font-size: 14px;
+    color: #fafafa;
+    background-color: transparent;
+    outline: none !important;
+    line-height: 13px;
+    width: 52px;
+    height: 26px;
+    border: 2px solid #fafafa;
+    border-radius: 100px;
+    opacity: 0.8;
   }
 }
 
@@ -101,7 +135,7 @@ nav {
 }
 
 .search-results {
-  height: calc(100vh - 230px);
+  height: calc(100vh - 340px);
   overflow-y: auto;
 
   a {
@@ -118,7 +152,9 @@ nav {
   }
 }
 
+////////// cards //////////
 .card {
+  cursor: pointer;
   position: relative;
   box-shadow: 0px 3px 10px #0000001a;
 
@@ -142,6 +178,8 @@ nav {
     }
   }
 }
+
+////////// popup //////////
 .leaflet-popup-content-wrapper {
   border-radius: 5px !important;
   padding: 5px;
@@ -209,6 +247,9 @@ nav {
 }
 .more-info {
   position: relative;
+  button a{
+    text-decoration: none !important;
+  }
 }
 .load-more-btn {
   width: 152px;
@@ -227,20 +268,7 @@ nav {
   margin-left: auto;
 }
 
-#map {
-  height: 100vh;
-}
-
-.highlight {
-  background-color: $color-bg;
-}
-
-button {
-  display: inline-block;
-  border: none;
-  background-color: transparent;
-  outline: none !important;
-}
+////////// footer //////////
 
 footer {
   color: #fff;
@@ -249,4 +277,35 @@ footer {
 
 p {
   margin-bottom: 0 !important;
+}
+
+li {
+  cursor: pointer !important;
+}
+
+.modal {
+  z-index: 1000;
+}
+
+.modal-content {
+  padding: 0 !important;
+  background-color: transparent !important;
+  border: none !important;
+}
+
+.modal-backdrop {
+  opacity: .9 !important;
+   background-color: #34495E !important;
+}
+.rule {
+  object-fit: contain;
+  width: auto !important;
+  height: 85vh !important;
+}
+
+.close-modal {
+  width: 24px;
+  position: absolute;
+  right: 24px;
+  top: -30px;
 }
