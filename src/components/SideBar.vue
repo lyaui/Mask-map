@@ -1,5 +1,5 @@
 <template>
-  <div class="menu vh-90 col-sm-6 col-md-4 col-xl-3 pb-2">
+  <div class="menu col-sm-6 col-md-4 col-xl-3 pb-2">
     <form class="form-inline align-items-baseline px-2 pt-2">
       <div v-if="!onSearch" class="d-flex w-100" style="margin-bottom: 6px;">
         <select
@@ -54,19 +54,11 @@
         </button>
         <!-- 送出搜尋 -->
         <button @click.prevent="search()" class="btn shadow-none search-btn">
-          <img src="../assets/sources/ic_location@2x.png" style="width: 24px; height: 24px;" />
+          <img src="../assets/imgs/ic_location@2x.png" style="width: 24px; height: 24px;" />
         </button>
         <!-- 建議藥局 -->
-        <ul
-          v-if="keyword && keyword.length >= 2 && filterdData.length > 0 && onSearch"
-          class="recommend-results list-group list-group-flush"
-        >
-          <li
-            @click.prevent="search(item.properties.address)"
-            v-for="(item, i) in filterdData"
-            :key="i"
-            class="recommend-item list-group-item border-bottom-0 rounded-0"
-          >
+        <ul v-if="keyword && keyword.length >= 2 && filterdData.length > 0 && onSearch" class="recommend-results list-group list-group-flush">
+          <li @click.prevent="search(item.properties.address)" v-for="(item, i) in filterdData" :key="i" class="recommend-item list-group-item border-bottom-0 rounded-0">
             <i class="recommend-item fas fa-map-marker-alt pr-1"></i> {{ item.properties.name }}
             <p class="recommend-item pl-5">{{ item.properties.address }}</p>
           </li>
@@ -100,15 +92,8 @@
       <div class="mb-4">
         <span>{{ today }}</span
         >購買日
-        <button
-          id="tooltip"
-          class="btn"
-          @mouseover="tooltipShow"
-          data-placement="right"
-          data-html="true"
-          :data-title="'奇數-身分證末碼 1,3,5,7,9 者<br>偶數-身分證末碼 0,2,4,6,8 者'"
-        >
-          <img src="@/assets/sources/ic_help@2x.png" />
+        <button id="tooltip" class="btn" @mouseover="tooltipShow" data-placement="right" data-html="true" :data-title="'奇數-身分證末碼 1,3,5,7,9 者<br>偶數-身分證末碼 0,2,4,6,8 者'">
+          <img src="@/assets/imgs/ic_help@2x.png" />
         </button>
       </div>
       <div class="d-flex justify-content-between">
@@ -120,25 +105,13 @@
           <p v-if="filterWay === 'byKeyword'">搜尋 {{ keyword }} 的供應商</p>
           <p v-if="filterdData && filterdData.length > 0">資訊更新時間 {{ updateTime }}</p>
         </div>
-        <button
-          class="btn btn-outline-primary-darken rounded-pill px-3"
-          @click.prevent="reloadData"
-        >
+        <button class="btn btn-outline-primary-darken rounded-pill px-3" @click.prevent="reloadData">
           重整列表
         </button>
       </div>
     </div>
 
-    <cards
-      class="p-2"
-      v-if="!onSearch"
-      :calcMask="calcMask"
-      :data.sync="filterdData"
-      :adultDaily="adultDaily"
-      :childDaily="childDaily"
-      :newCenter="newCenter"
-      @newCenter="emitNewCenter"
-    ></cards>
+    <cards class="p-2" v-if="!onSearch" :calcMask="calcMask" :data.sync="filterdData" :adultDaily="adultDaily" :childDaily="childDaily" :newCenter="newCenter" @newCenter="emitNewCenter"></cards>
   </div>
 </template>
 
@@ -175,21 +148,15 @@ export default {
           data = vm.allData.filter((pharmacy) => `${pharmacy.properties.name}${pharmacy.properties.address}`.includes(vm.keyword));
         } else if (vm.filterWay === 'bySelect') {
           // 使用縣市，取得所有位置
-          const filterCounty = vm.allData.filter(
-            (pharmacy) => pharmacy.properties.county === vm.citySel,
-          );
-          data = vm.areaSel === ''
-            ? filterCounty
-            : filterCounty.filter((pharmacy) => pharmacy.properties.town === vm.areaSel);
+          const filterCounty = vm.allData.filter((pharmacy) => pharmacy.properties.county === vm.citySel);
+          data = vm.areaSel === '' ? filterCounty : filterCounty.filter((pharmacy) => pharmacy.properties.town === vm.areaSel);
         } else {
           // 預設，使用所在地，取得方圓五里內藥局（預設），並由近排至遠
           const latlng = L.latLng(vm.userPosition);
           data = vm.allData
             .filter((pharmacy) => {
               // eslint-disable-next-line no-param-reassign
-              pharmacy.dist = latlng.distanceTo(
-                L.latLng(pharmacy.geometry.coordinates[1], pharmacy.geometry.coordinates[0]),
-              );
+              pharmacy.dist = latlng.distanceTo(L.latLng(pharmacy.geometry.coordinates[1], pharmacy.geometry.coordinates[0]));
               return pharmacy.dist < vm.distance;
             })
             .sort((a, b) => a.dist - b.dist);

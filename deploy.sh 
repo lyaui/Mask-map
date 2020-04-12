@@ -11,4 +11,4 @@ git commit -m 'deploy'
 
 git push -f git@github.com:lyaui/Mask-map.git master:gh-pages
 
-cd -
+cd

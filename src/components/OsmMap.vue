@@ -3,32 +3,15 @@
     <l-map :zoom="zoom" :center="userPosition" :minZoom="6" class="h-100" ref="mapInfo">
       <l-tile-layer :url="url"></l-tile-layer>
       <l-marker-cluster>
-        <l-marker
-          v-for="(item, i) in allData"
-          :lat-lng="[item['geometry']['coordinates'][1], item['geometry']['coordinates'][0]]"
-          :key="i"
-          @add="openPopup"
-        >
-          <l-popup
-            :options="{ autoPan: false, autoClose: false, closeOnClick: false, closeButton: false }"
-            ><a
-              target="_blank"
-              class="text-center d-block"
-              :href="`https://www.google.com.tw/maps/place/${item.properties.address}`"
-              >{{ item["properties"]["name"] }}</a
-            >
+        <l-marker v-for="(item, i) in allData" :lat-lng="[item['geometry']['coordinates'][1], item['geometry']['coordinates'][0]]" :key="i" @add="openPopup">
+          <l-popup :options="{ autoPan: false, autoClose: false, closeOnClick: false, closeButton: false }"
+            ><a target="_blank" class="text-center d-block" :href="`https://www.google.com.tw/maps/place/${item.properties.address}`">{{ item['properties']['name'] }}</a>
             <div class="d-flex justify-content-center w-100">
-              <div
-                class="popup-masknum"
-                :class="calcMask(item.properties['mask_adult'], adultDaily)"
-              >
-                {{ item.properties["mask_adult"] }}
+              <div class="popup-masknum" :class="calcMask(item.properties['mask_adult'], adultDaily)">
+                {{ item.properties['mask_adult'] }}
               </div>
-              <div
-                class="popup-masknum"
-                :class="calcMask(item.properties['mask_child'], childDaily)"
-              >
-                {{ item.properties["mask_child"] }}
+              <div class="popup-masknum" :class="calcMask(item.properties['mask_child'], childDaily)">
+                {{ item.properties['mask_child'] }}
               </div>
             </div>
           </l-popup>

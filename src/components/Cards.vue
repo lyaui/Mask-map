@@ -1,50 +1,30 @@
 <template>
-  <div v-if="data" class="search-results d-flex flex-column align-items-center">
-    <div
-      class="card border-0 p-1 mb-3 w-100"
-      v-for="(item, i) in data.slice(0, showNum)"
-      :key="item.properties.i"
-      @click="emitNewCenter(item)"
-      :id="i"
-    >
+  <div v-if="data" class="search-results">
+    <div class="card border-0 p-1 mb-3 w-100" v-for="(item, i) in data.slice(0, showNum)" :key="item.properties.i" @click="emitNewCenter(item)" :id="i">
       <div class="card-body p-0">
         <div class="d-flex mb-5 mask-num">
-          <div
-            class="px-2 py-1 w-100 rounded mr-2 text-white maskStatus"
-            :class="calcMask(item.properties['mask_adult'], adultDaily)"
-          >
+          <div class="px-2 py-1 w-100 rounded mr-2 text-white maskStatus" :class="calcMask(item.properties['mask_adult'], adultDaily)">
             <p>成人口罩數量</p>
             <p class="mb-0">
-              <span>{{ item.properties["mask_adult"] }}</span
+              <span>{{ item.properties['mask_adult'] }}</span
               >片
             </p>
           </div>
-          <div
-            class="px-2 py-1 w-100 rounded text-white maskStatus"
-            :class="calcMask(item.properties['mask_child'], childDaily)"
-          >
+          <div class="px-2 py-1 w-100 rounded text-white maskStatus" :class="calcMask(item.properties['mask_child'], childDaily)">
             <p>兒童口罩數量</p>
             <p class="mb-0">
-              <span>{{ item.properties["mask_child"] }}</span
+              <span>{{ item.properties['mask_child'] }}</span
               >片
             </p>
           </div>
         </div>
         <div class="pharmacy-info text-primary-darken">
           <div class="d-flex">
-            <div
-              class="rounded-right opening-status"
-              :class="isOpening(item.properties['service_periods']).color"
-            ></div>
+            <div class="rounded-right opening-status" :class="isOpening(item.properties['service_periods']).color"></div>
             <h5 class="mb-5">
               {{ item.properties.name }}
             </h5>
-            <span
-              class="badge ml-1 px-1"
-              :class="isOpening(item.properties['service_periods']).text"
-            >
-              {{ isOpening(item.properties["service_periods"]).status }}</span
-            >
+            <span class="badge ml-1 px-1" :class="isOpening(item.properties['service_periods']).text"> {{ isOpening(item.properties['service_periods']).status }}</span>
           </div>
           <div class="info-details">
             <div class="mb-1 d-flex justify-content-between flex-wrap">
@@ -52,16 +32,12 @@
                 <span class="text-primary-darken">地址</span>
                 <p>{{ item.properties.address }}</p>
               </div>
-              <a
-                target="_blank"
-                :href="`https://www.google.com.tw/maps/place/${item.properties.address}`"
-                ><u>地圖查看</u></a
-              >
+              <a target="_blank" :href="`https://www.google.com.tw/maps/place/${item.properties.address}`"><u>地圖查看</u></a>
             </div>
             <div class="mb-1 d-flex justify-content-between flex-wrap">
               <div class="d-flex">
                 <span class="text-primary-darken">電話</span>
-                <p>{{ item.properties.phone.replace(/\s/g, "") }}</p>
+                <p>{{ item.properties.phone.replace(/\s/g, '') }}</p>
               </div>
 
               <a :href="`tel:${item.properties.phone.replace(/\s/g, '')}`"><u>播打電話</u></a>
@@ -74,20 +50,16 @@
         </div>
       </div>
     </div>
-    <span class="text-primary-darken mb-1 text-center"
-      >尚有 {{ data.length - showNum >= 0 ? data.length - showNum : 0 }} 筆資料</span
-    >
-    <div class="d-flex w-100 more-info">
-      <button
-        v-if="data.length >= showNum"
-        class="btn btn-primary-darken rounded-pill px-0 py-1 shadow-lg mb-2 load-more-btn"
-        @click="showNum += 5"
-      >
-        查看更多
-      </button>
-      <button v-if="data.length > 0" class="btn btn-primary-darken p-0 shadow-lg go-top-btn">
-        <a href="#0" class="text-white" style="padding: 10px;">TOP</a>
-      </button>
+    <div class="d-flex flex-column">
+      <span class="text-primary-darken mb-1 text-center">尚有 {{ data.length - showNum >= 0 ? data.length - showNum : 0 }} 筆資料</span>
+      <div class="d-flex w-100 more-info">
+        <button v-if="data.length >= showNum" class="btn btn-primary-darken rounded-pill px-0 py-1 shadow-lg mb-2 load-more-btn" @click="showNum += 5">
+          查看更多
+        </button>
+        <button v-if="data.length > 0" class="btn btn-primary-darken p-0 shadow-lg go-top-btn">
+          <a href="#0" class="text-white" style="padding: 10px;">TOP</a>
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -168,6 +140,10 @@ export default {
       }
       return { status: isOpening, color: openingBg, text: openingTextColor };
     },
+  },
+  created() {
+    const vm = this;
+    vm.keywords = JSON.parse(localStorage.getItem('searchWords')) || [];
   },
 };
 </script>

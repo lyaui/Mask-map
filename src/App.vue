@@ -1,33 +1,17 @@
 <template>
   <div id="app">
-    <loading
-      :active.sync="isLoading"
-      :opacity="0.9"
-      :background-color="'#000'"
-      :color="'#ff5722'"
-    ></loading>
+    <loading :active.sync="isLoading" :opacity="0.9" :background-color="'#000'" :color="'#ff5722'"></loading>
     <!-- navbar -->
     <div class="pos-f-t">
-      <nav
-        class="navbar navbar-dark bg-primary-white px-2"
-        :class="{ 'bg-primary-darken': dropDown === true }"
-      >
+      <nav class="navbar navbar-dark bg-primary-white px-2" :class="{ 'bg-primary-darken': dropDown === true }">
         <div class="nav-item d-flex align-items-center">
-          <img src="./assets/sources/logo.png" alt="口罩即時查" />
-          <h1
-            class="title text-white"
-            href="#"
-            :class="{ 'text-primary-darken': dropDown === false }"
-          >
+          <img src="./assets/imgs/logo.png" alt="口罩即時查" />
+          <h1 class="title text-white" href="#" :class="{ 'text-primary-darken': dropDown === false }">
             口罩即時查
           </h1>
         </div>
         <ul class="d-none d-sm-flex ml-auto my-auto">
-          <li
-            class="nav-item py-2 px-1 text-primary-darken"
-            @click="menuSelected = '口罩供給現況'"
-            :class="{ 'nav-item--active': menuSelected === '口罩供給現況' }"
-          >
+          <li class="nav-item py-2 px-1 text-primary-darken" @click="menuSelected = '口罩供給現況'" :class="{ 'nav-item--active': menuSelected === '口罩供給現況' }">
             口罩供給現況
           </li>
           <li
@@ -42,28 +26,13 @@
           </li>
         </ul>
 
-        <button
-          class="btn navbar-toggler border-0 d-block d-sm-none ml-auto"
-          @click="dropDown = !dropDown"
-          data-toggle="collapse"
-          data-target="#navbarToggleExternalContent"
-          aria-controls="navbarToggleExternalContent"
-        >
-          <img v-if="!dropDown" class="m-0" src="./assets/sources/ic_toggler@2x.png" />
-          <img v-if="dropDown" class="m-0" src="./assets/sources/ic_close@2x.png" />
+        <button class="btn navbar-toggler border-0 d-block d-sm-none ml-auto" @click="dropDown = !dropDown" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent">
+          <img v-if="!dropDown" class="m-0" src="./assets/imgs/ic_toggler@2x.png" />
+          <img v-if="dropDown" class="m-0" src="./assets/imgs/ic_close@2x.png" />
         </button>
       </nav>
-      <div
-        class="collapse bg-primary-darken text-center text-white"
-        id="navbarToggleExternalContent"
-      >
-        <li
-          class="navbar-toggler d-block d-sm-none py-2"
-          @click="dropDown = !dropDown"
-          data-toggle="collapse"
-          data-target="#navbarToggleExternalContent"
-          aria-controls="navbarToggleExternalContent"
-        >
+      <div class="collapse bg-primary-darken text-center text-white" id="navbarToggleExternalContent">
+        <li class="navbar-toggler d-block d-sm-none py-2" @click="dropDown = !dropDown" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent">
           口罩供給現況
         </li>
         <li
@@ -83,33 +52,16 @@
 
     <div class="row no-gutters" style="height: 100%;">
       <!-- sidebar -->
-      <side-bar
-        :allData.sync="data"
-        :userPosition="userPosition"
-        :calcMask="calcMask"
-        :adultDaily="adultDaily"
-        :childDaily="childDaily"
-        @getNewCenter="updatePosition"
-        @reloadData="getData"
-      ></side-bar>
+      <side-bar :allData.sync="data" :userPosition="userPosition" :calcMask="calcMask" :adultDaily="adultDaily" :childDaily="childDaily" @getNewCenter="updatePosition" @reloadData="getData"></side-bar>
       <!-- map -->
-      <osm-map
-        :allData.sync="data"
-        :userPosition="userPosition"
-        :calcMask="calcMask"
-        :adultDaily="adultDaily"
-        :childDaily="childDaily"
-        ref="mapInfo"
-      ></osm-map>
+      <osm-map :allData.sync="data" :userPosition="userPosition" :calcMask="calcMask" :adultDaily="adultDaily" :childDaily="childDaily" ref="mapInfo"></osm-map>
       <!-- footer -->
     </div>
     <footer class="bg-primary-darken p-6">
       <p>防疫專線 1922 ｜ 口罩資訊 1919</p>
       <p>
         Design /
-        <a class="text-white" href="https://challenge.thef2e.com/user/3405?schedule=4432#works-4432"
-          >PY Design</a
-        >
+        <a class="text-white" href="https://challenge.thef2e.com/user/3405?schedule=4432#works-4432">PY Design</a>
       </p>
       <p>
         Made / I. H
@@ -120,8 +72,8 @@
     <div class="modal fade" id="howbuy" role="dialog" aria-hidden="true" data-backdrop="static">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-          <img @click="closeImg" class="close-modal" src="./assets/sources/ic_close@2x.png" />
-          <img class="rule img-fluid" src="./assets/sources/rule.jpg" />
+          <img @click="closeImg" class="close-modal" src="./assets/imgs/ic_close@2x.png" />
+          <img class="rule img-fluid" src="./assets/imgs/rule.jpg" />
         </div>
       </div>
     </div>
@@ -214,5 +166,5 @@ export default {
 </script>
 
 <style lang="scss">
-@import "@/assets/all.scss";
+@import '@/assets/all.scss';
 </style>

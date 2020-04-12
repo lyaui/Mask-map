@@ -119,7 +119,8 @@ nav {
 
 .info-box {
   span {
-    font: Bold 36px/54px Noto Sans CJK TC;
+    font-size: 36px;
+    font-family: 'Noto Sans TC', sans-serif;
     margin-right: 8px;
   }
 
@@ -147,7 +148,8 @@ nav {
   }
 
   .mask-num span {
-    font: Bold 32px/47px Noto Sans CJK TC;
+    font-size: 32px;
+    font-family: 'Noto Sans TC', sans-serif;
     margin-right: 4px;
   }
 }
@@ -214,17 +216,17 @@ nav {
 
   &--sufficient {
     background-color: #11787a;
-    background-image: url(../src/assets/sources/ic_stock_full@2x.png);
+    background-image: url(../src/assets/imgs/ic_stock_full@2x.png);
   }
 
   &--insufficient {
     background-color: #e67e22;
-    background-image: url(../src/assets/sources/ic_stock_few@2x.png);
+    background-image: url(../src/assets/imgs/ic_stock_few@2x.png);
   }
 
   &--zero {
     background-color: #b7bbbd;
-    background-image: url(../src/assets/sources/ic_stock_none@2x.png);
+    background-image: url(../src/assets/imgs/ic_stock_none@2x.png);
   }
 }
 .opening-status {
@@ -247,7 +249,7 @@ nav {
 }
 .more-info {
   position: relative;
-  button a{
+  button a {
     text-decoration: none !important;
   }
 }
@@ -283,6 +285,8 @@ li {
   cursor: pointer !important;
 }
 
+////////// modal //////////
+
 .modal {
   z-index: 1000;
 }
@@ -294,8 +298,8 @@ li {
 }
 
 .modal-backdrop {
-  opacity: .9 !important;
-   background-color: #34495E !important;
+  opacity: 0.9 !important;
+  background-color: #34495e !important;
 }
 .rule {
   object-fit: contain;
